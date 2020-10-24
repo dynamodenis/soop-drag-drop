@@ -21,7 +21,7 @@ $(document).ready(function(){
                 position:ui.helper.position()
             }
             // THe position of the item drugged takes the width of the Tables column and adds it to the draw are width so we need to move it
-            items.position.left -= tableCol.width()
+            items.position.left -= canvas.position().left
             // Use the ui property from jqueryUI to get the value i.e the class of the node selected
             if (ui.helper.hasClass('circle')){
                 // add an item property 'TYPE' to the item object
