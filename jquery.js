@@ -21,7 +21,8 @@ $(document).ready(function(){
                 position:ui.helper.position()
             }
             // THe position of the item drugged takes the width of the Tables column and adds it to the draw are width so we need to move it
-            items.position.left -= canvas.position().left
+            items.position.left -= (canvas.position().left )
+            console.log(window.innerWidth)
             // Use the ui property from jqueryUI to get the value i.e the class of the node selected
             if (ui.helper.hasClass('circle')){
                 // add an item property 'TYPE' to the item object
@@ -47,7 +48,7 @@ $(document).ready(function(){
 
             // Push the item object to the droppedItem
             droppedItem.push(items)
-
+            // console.log(droppedItem)
            // Render the item in the dropped area
            renderItem(droppedItem)
         }
@@ -99,11 +100,12 @@ $(document).ready(function(){
                     }
                 }
             }).attr("id", item._id)  // This attr() allows us to send the elemnt to the dom with an id of that particular item
-            console.log(item)
-            console.log(droppedItem)
+           
 
             // html.draggable()
             canvas.append(dom)
+            // console.log(item)
+            
         }
         
     }
