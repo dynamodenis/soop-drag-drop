@@ -50,7 +50,7 @@ $(document).ready(function(){
             droppedItem.push(items)
             // console.log(droppedItem)
            // Render the item in the dropped area
-           renderItem(droppedItem)
+            renderItem(droppedItem)
         }
     })
 
@@ -90,12 +90,26 @@ $(document).ready(function(){
                 stop: function(event, ui){
                     // Get the id of the item using the helper property which is created by the attr() below
                     var id = ui.helper.attr("id")
-                    console.log(id)
+                    
                     for ( var i in droppedItem){
-                        // Check for the item wth the same id as the moved item
+                        // Check for the item with the same id as the moved item
                         if (droppedItem[i]._id == id){
                             droppedItem[i].position.top = ui.position.top,
                             droppedItem[i].position.left = ui.position.left
+                        }
+                        // Remove the item from the list if it is dragged outside the draw area i.e the length goes to negative
+                        if (droppedItem[i].position.left < 0.0){
+                        
+                            var remove = confirm("Delete Item");
+                            if (remove == true){
+                                $(`#${droppedItem[i]._id}`).remove()
+                                droppedItem.splice(i,1)
+                                console.log(droppedItem)
+                            }
+                            else{
+                                console.log("Do not Delete")
+                            }
+
                         }
                     }
                 }

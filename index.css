@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    /* overflow-x: auto; */
+    
 }
 
 .service{
@@ -41,13 +41,7 @@
     /* height: 70vh; */
   
 }
-/* .draw-box{ */
-    /* background-color: rgb(212, 209, 209); */
-    /* width: 5%;
-    height: 70vh;
-    background-color: green;
-    height: 5vh;
-} */
+
 .draw-box{
     /* background-color: rgb(212, 209, 209); */
     width: 5%;
@@ -63,8 +57,8 @@
     background-color: rgb(212, 209, 209);
     height: 80vh;
     width: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
+    /* overflow-x: auto; */
+    /* overflow-y: auto; */
     margin:0;
     padding: 0;
 
@@ -99,7 +93,7 @@
     height: 40;
     font-size: 30px;
     cursor: move;
-    /* margin-left: 20px; */
+    
     margin-right: 10px;
     z-index: 2;
 }
