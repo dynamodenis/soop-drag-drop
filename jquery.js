@@ -64,7 +64,7 @@ $(document).ready(function(){
                     // Push the item object to the droppedItem
                     droppedItem.push(items)
                     
-                    
+                    // Create indexes for different teams excluding Barriers and Labels
                     createIndex(droppedItem)
     
                     // Render the item in the dropped area
