@@ -170,6 +170,21 @@ $(document).ready(function(){
                         var elementHeight = this.getBoundingClientRect().height
                         var elementId = $(`#${droppedItem[i]._id}`)
                         var element = document.getElementById(droppedItem[i]._id)
+
+                        $(".indexInput").val(itemIndex)
+
+                        // Edit the number/index of the item
+                        $(".indexInput").keyup(function(e){
+                            var newIndex = $(".indexInput").val()
+                            var itemIndex = $(".itemIndex")
+                            var itemDiamondIndex = $(".itemDiamondIndex")
+                            console.log(newIndex)
+                            // itemIndex.innerHTML = "trial"
+                            // console.log(itemDiamondIndex)
+                            // Set the number of the item to the new typed index
+                            droppedItem[i].number = newIndex
+                        })
+                        
                         $(".increaseWidth").on("click", function () {
                             // get the width of that element
 
