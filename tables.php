@@ -80,7 +80,6 @@
                                 <div class="control selectIndex form-inline">
                                     <span>Change Table Number</span>
                                     <input type="text" size="4" class="indexInput">
-                                    <button id="updateButton" class="btn btn-sm btn-success">Update Number</button>
                                 </div>
                             </div>
                             
@@ -133,11 +132,7 @@
 </div>
 
 
-<script>
-function changesMade(){
-    console.log("changes Made")
-}
-        
+<script>     
 $(document).ready(function () {
 
 
@@ -234,7 +229,7 @@ $(document).ready(function () {
 
                 //Push the existingItems objects to the droppedItem Array
                 createItems(existingItems)
-                
+                // Change the index of saved tables from the database
                 changeIndex(droppedItem)   
 
               
@@ -436,7 +431,7 @@ $(document).ready(function () {
                 }
             })
         }
-
+/**--------------------------------------------------------------------------------- SETS ALL TABLES AS DRAGGABLE ----------------------------------- */
         // Set the elements to draggable
 
         $(".draggable").draggable({
@@ -445,7 +440,7 @@ $(document).ready(function () {
             // grid: [ 20, 20 ]
 
         });
-        
+        /* -------------------------------------------------------------------------THIS CODE/FUNCTIONS IS RESPONSIBLE FOR UPDATING THE NUMBER/INDEX --------------------------------------------------------------------------- */    
         function changeIndex(droppedItem){
             // console.log(droppedItem)
             var selectedItem
@@ -458,7 +453,7 @@ $(document).ready(function () {
             }           
         }      
         function updateSelectedIndex(selectedItem, item){
-            selectedItem.unbind().click(function(e){
+            selectedItem.click(function(e){
                 var selectedId = selectedItem.attr("id")
                 if (selectedId = item.id){
                     console.log(item.type)
@@ -488,13 +483,14 @@ $(document).ready(function () {
                 // $(this).unbind()
             })
         }
-
+/*---------------------------------------------------------------------------------THIS createItems(items) function PUSHES ALL ITEMS TO THE droppedItem array---------------------------------------------------------------------- */
 
         // Push the item object to the droppedItem array
         function createItems(items){
             droppedItem.push(items)
             return droppedItem
         }
+/**-------------------------------------------------------------------------------THIS dropTables() function HANDLES DROPPING TABLES TO THE CANVAS, DRAGGING THEM AND UPDATING THEIR POSITIONS WHEN DRAGGED----------------------------------------------------------- */
         // This function hundles the positioning of elemnts being dropped
         function dropTables(droppedItem, item){
             // Clear the canvas after every drop to prevent duplicating
@@ -613,7 +609,7 @@ $(document).ready(function () {
             }
             
         }
-
+/**---------------------------------------------------------------------------------THIS EVENT HUNDLER SUBMITS TABLES TO THE DATABASE ----------------------------------- */
         // Submiting/Saving the tables tot the database
         var submit = document.getElementById("submit")
         submit.addEventListener("click", function(e){
@@ -641,7 +637,7 @@ $(document).ready(function () {
                 }
             })
         })
-
+/**---------------------------------------------------------------------------------THIS EVENT HUNDLER UPDATING TABLES TO THE DATABASE ----------------------------------- */
         // Publishing/updating the tables to the database
         var update = document.getElementById("publish")
         update.addEventListener("click", function(e){
@@ -665,7 +661,7 @@ $(document).ready(function () {
                 }
             })
         })
-
+/**---------------------------------------------------------------------------------THIS GIVES DEFAULT WIDTH AND HEIGHT TO THE DROPPED ITEM--------- ----------------------------------- */
         // This function sets the width and the height of a dropped item
         function renderDiagram(droppedItem){
             for (var i in droppedItem){
@@ -682,22 +678,10 @@ $(document).ready(function () {
                     lastItem[0].height = itemHeight
                     // droppedElement.style.width = lastItem[0].width
                     // droppedElement.style.height = lastItem[0].height
-                }
-                
-                
-                // if (droppedItem.length <= 1 || droppedItem.slice(-1)){
-                //     // console.log(droppedItem[i].type)
-                //     if (droppedItem[i].id== id) {
-                //         droppedItem[i].width = itemWidth,
-                //         droppedItem[i].height = itemHeight  
-                //     }
-                // }else if (droppedItem.lenght > 1){
-                //     droppedItem[i].width = "100px",
-                //     droppedItem[i].height = "100px"
-                // }          
+                }   
             }
         }
-
+/**---------------------------------------------------------------------------------THIS createIndex GIVES EVERY SINGLE DROPPED TABLE A SPECIFIC INDEX/NUMBER EVEN AFTER IT HAS BEEN DELETED ITS UPDATES THE NUMBERING ----------------------------------- */
         // NUmbering the items 
         function createIndex(droppedItems){
                 for (var i in droppedItems){
@@ -709,15 +693,14 @@ $(document).ready(function () {
                             // Get the last added element and add to it one
                             var lastNumber = droppedItem.slice(-1)
                             lastNumber[0].number += 1                                                                
-                        }
-                        
+                        }                        
                     }else{
                         // If the item is a barrier or label set it to an empty string
                         droppedItem[i].number = ""
                     }
                 }
             }
-
+/**---------------------------------------------------------------------------------THIS resizeImage() RESIZES THE DROPPED TABLES TO DESIRED SHAPE AND SIZE. ALTOUGH NOT YES COMPLETED/IMPLEMENTED ----------------------------------- */
         // This function resizes images to different sizes
         function resizeImage(i, id) {
             // if (!id == undefined){
@@ -908,13 +891,15 @@ $(document).ready(function () {
             // }
 
         }
-        function disableF5(e) {
-            if ((e.which || e.keyCode) == 116) 
-            e.preventDefault(); 
-            };
-        $(document).on("keydown", disableF5);
 
+/**---------------------------------------------------------------------------------PREVENTS RELOADING OF PAGES BY PRESSING F5 TO PREVENT LOSS OF DATA ----------------------------------- */
+    function disableF5(e) {
+        if ((e.which || e.keyCode) == 116) 
+        e.preventDefault(); 
+        };
+    $(document).on("keydown", disableF5);
 
+/**---------------------------------------------------------------------------------GETS ALL SERVICE AREAs FROM THE RVC AREA ----------------------------------- */
     // Get the Service Area created in the serviceArea.php file which is needed to allocate each table to Service ara assigned
     var selectOption = $("#selectArea")
     $.ajax({
@@ -926,352 +911,6 @@ $(document).ready(function () {
             })
         }
     })
-
-   
-    
-    // draw_area.bind("DOMSubtreeModified", function(){
-    //     console.log("changed")
-    // })
-   
-    // document.body.addEventListener('DOMSubtreeModified', function () {
-    //     var draw_area = document.getElementsByClassName("draw-area")[0]
-    //     var selectElement = draw_area.getElementsByClassName("selectOption")
-    //     for (var item of selectElement){
-    //         item.addEventListener("click", function(){
-    //             $(this).addClass('ui-selected').siblings().removeClass('ui-selected');
-    //             var elementId = this.id
-    //             console.log(elementId)
-    //             for (var i in droppedItem){
-    //                 if(elementId == droppedItem[i].id){
-    //                     if($(this).hasClass("ui-selected")){
-    //                         updateIndex(elementId,droppedItem[i])
-    //                     }
-    //                 }
-    //             }
-    //         })
-    //     }
-    // });
-    // function updateIndex(selectedId,item){
-    //     // var inputField = ""
-
-    //     var newIndex;
-        
-    //     //var item = droppedItem[i]
-    //     $(".updateIndex").show()
-    //     $(".indexInput").val(item.number) //Set the value of the input field to value of the number
-
-    //     $(".indexInput").keyup(function(){
-    //         // console.log(e.target.id)
-    //         newIndex = $(".indexInput").val()
-
-    //         // console.log(item.number, newIndex)
-    //         item.number = newIndex
-    //         // console.log(item.number, newIndex)
-    //         $(`#${selectedId} span`).text(newIndex)
-    //         // $(this).unbind()
-    //     })
-    // }
-
 })
-
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-// function allowDrop(ev) {
-//   ev.preventDefault();
-// }
-
-// function drag(ev) {
-//   var style = window.getComputedStyle(event.target, null);
-//   ev.dataTransfer.setData("Text", ev.target.id);
-// }
-
-// // DUPLICATE BEFORE DROPPIG SHAPE INTO THE DRAGGABLE AREA
-// function drop(ev) {
-//   ev.preventDefault();
-
-//   var id = ev.dataTransfer.getData("text");
-//   if (id == "drag1" && ev.target.id == "drag-section") {
-//     var shape = document.getElementById(id);
-
-//     var nodeCopy = shape.cloneNode(true);
-//     //adding classname to the shapes
-//     nodeCopy.classList.add("shapes");
-//     //adding an incrementing id to the shapes
-//     nodeCopy.id = incrementId();
-//     function incrementId() {
-//       if (!this.latestId) this.latestId = 1;
-//       else this.latestId++;
-//       return this.latestId;
-//     }
-//     ev.target.appendChild(nodeCopy);
-//   }
-
-//   if (id == "drag2" && ev.target.id == "drag-section") {
-//     var shape = document.getElementById(id);
-
-//     var nodeCopy = shape.cloneNode(true);
-//     //adding classname to the shapes
-//     nodeCopy.classList.add("shapes");
-//     //adding an incrementing id to the shapes
-//     nodeCopy.id = incrementId();
-//     function incrementId() {
-//       if (!this.latestId) this.latestId = 1;
-//       else this.latestId++;
-//       return this.latestId;
-//     }
-//     ev.target.appendChild(nodeCopy);
-//   }
-
-//   if (id == "drag3" && ev.target.id == "drag-section") {
-//     var shape = document.getElementById(id);
-
-//     var nodeCopy = shape.cloneNode(true);
-//     //adding classname to the shapes
-//     nodeCopy.classList.add("shapes");
-//     //adding an incrementing id to the shapes
-//     nodeCopy.id = incrementId();
-//     function incrementId() {
-//       if (!this.latestId) this.latestId = 1;
-//       else this.latestId++;
-//       return this.latestId;
-//     }
-//     ev.target.appendChild(nodeCopy);
-//   }
-
-//   if (id == "drag4" && ev.target.id == "drag-section") {
-//     var shape = document.getElementById(id);
-
-//     var nodeCopy = shape.cloneNode(true);
-//     //adding classname to the shapes
-//     nodeCopy.classList.add("shapes");
-//     //adding an incrementing id to the shapes
-//     nodeCopy.id = incrementId();
-//     function incrementId() {
-//       if (!this.latestId) this.latestId = 1;
-//       else this.latestId = latestId;
-//       return this.latestId;
-//     }
-//     ev.target.appendChild(nodeCopy);
-//   }
-
-//   if (id == "drag5" && ev.target.id == "drag-section") {
-//     var shape = document.getElementById(id);
-
-//     var nodeCopy = shape.cloneNode(true);
-//     //adding classname to the shapes
-//     nodeCopy.classList.add("shapes");
-//     //adding an incrementing id to the shapes
-//     nodeCopy.id = incrementId();
-//     function incrementId() {
-//       if (!this.latestId) this.latestId = 1;
-//       else this.latestId = latestId;
-//       return this.latestId;
-//     }
-//     ev.target.appendChild(nodeCopy);
-//   }
-
-//   if (id == "drag6" && ev.target.id == "drag-section") {
-//     var shape = document.getElementById(id);
-
-//     var nodeCopy = shape.cloneNode(true);
-//     //adding classname to the shapes
-//     nodeCopy.classList.add("shapes");
-//     //adding an incrementing id to the shapes
-//     nodeCopy.id = incrementId();
-//     function incrementId() {
-//       if (!this.latestId) this.latestId = 1;
-//       else this.latestId++;
-//       return this.latestId;
-//     }
-//     ev.target.appendChild(nodeCopy);
-//   }
-
-//   var id = document.getElementById(latestId).id;
-//   //display id on shape
-//   document.getElementById(latestId).innerHTML = id;
-
-//   var value = document.getElementById(latestId).id;
-//   //display table id on input field when a shape is dropped
-//   document.getElementById("table-input").value = value;
-  // $('div.shapes').click(function(){
-  //     // if it's unmarked we mark
-  //     if(!$(this).hasClass('selected'))
-  //           $(this).addClass('selected').attr('selected', 'selected');
-  //     else
-  //           $(this).removeClass('selected').removeAttr('selected', 'selected');
-  //   });
-  // $.event.special.inputchange = {
-  //     setup: function() {
-  //       var self = this, val;
-  //       $.data(this, 'timer', window.setInterval(function() {
-  //           val = self.value;
-  //           if ( $.data( self, 'cache') != val ) {
-  //               $.data( self, 'cache', val );
-  //               $( self ).trigger( 'inputchange' );
-  //           }
-  //       }));
-  //     }
-  //   };
-
-  //   $('input').on('inputchange', function() {
-  //       $('text').text(this.value);
-  //   });
-
-  //   const selectable = new Selectable({
-  //     filter: ".shapes",
-  //     appendTo: "#drag-section",
-  //     lasso : false
-  //   });
-
-  //   // selectable.on("selecteditem", function(item) {
-  //   // // do something when an item is selected
-  //   //   // alert(latestId);
-  //   //   console.log(item.node.id);
-  //   // });
-
-  //   selectable.on("end", function(e, selected, unselected) {
-
-  //     document.getElementsByClassName("ui-selected")[0].setAttribute("selected", "selected");
-  //     console.log(selected[0])
-  //   });
-
-  //   document
-  //     .getElementById("zoomin")
-  //     .addEventListener("click", function () {
-  //       document.getElementById(latestId);
-  //       increaseheight();
-  //       increasewidth();
-  //     });
-
-  //   document
-  //     .getElementById("zoomout")
-  //     .addEventListener("click", function () {
-  //       document.getElementById(latestId);
-  //       decreaseheight();
-  //       decreasewidth();
-  //     });
-  //   }
-
-  //   function removeShape(ev) {
-  //     ev.preventDefault();
-  //     var data = ev.dataTransfer.getData("Text");
-  //     var del = confirm(
-  //       "You are about to DELETE this insert. Do you wish to continue?"
-  //     );
-
-  //     if (del) {
-  //       var el = document.getElementById(data);
-  //       el.parentNode.removeChild(el);
-
-  //       console.log("item deleted");
-  //     }
-  //   }
-
-  //   function increasewidth(){
-  //       var myImg = document.getElementById(latestId);
-  //       var currWidth = myImg.clientWidth;
-  //       if (currWidth == 500) {
-  //         myImg.style.width = currWidth + 0 + "px";
-  //       } else {
-  //           myImg.style.width = (currWidth + 25) + "px";
-  //       } 
-  //     }
-
-  //     function decreasewidth(){
-  //       var myImg = document.getElementById(latestId);
-  //       var currWidth = myImg.clientWidth;
-  //       if (currWidth == 50) {
-  //         myImg.style.width = currWidth - 0 + "px";
-  //       } else {
-  //           myImg.style.width = (currWidth - 25) + "px";
-  //       }
-  //     }
-
-  //     function increaseheight() {
-  //       var myImg = document.getElementById(latestId);
-  //       var currHeight = myImg.clientHeight;
-  //       if (currHeight == 500) {
-  //         myImg.style.height = currHeight + 0 + "px";
-  //       } else {
-  //           myImg.style.height = (currHeight + 25) + "px";
-  //       } 
-  //     }
-
-  //     function decreaseheight() {
-  //       var myImg = document.getElementById(latestId);
-  //       var currHeight = myImg.clientHeight;
-  //       if (currHeight == 50) {
-  //         myImg.style.height = currHeight - 0 + "px";
-  //       } else {
-  //         myImg.style.height = currHeight - 25 + "px";
-  //       }
-  //     }
-</script>
